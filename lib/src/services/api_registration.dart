@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:vertatable/src/constants/ipConfigurationApi.dart';
 
 class ApiRegistration {
   static Future<Map<String, dynamic>> registerUser(Map<String, dynamic> userData) async {
-    final Uri url = Uri.parse('https://10.190.128.242:8000/api/register');
+    final Uri url = Uri.parse('${IP}/api/register');
     try {
       final http.Response response = await http.post(
         url,
@@ -21,7 +22,7 @@ class ApiRegistration {
   }
 
   static Future<Map<String, dynamic>> finalizeRegistration(int userId, List<int> allergies) async {
-    final Uri url = Uri.parse('https://10.190.128.242:8000/api/finalize-registration');
+    final Uri url = Uri.parse('${IP}/api/finalize-registration');
     try {
       final http.Response response = await http.post(
         url,

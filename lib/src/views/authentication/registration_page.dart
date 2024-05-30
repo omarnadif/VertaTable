@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:vertatable/src/components/buttonSubmit.dart';
 import 'package:vertatable/src/components/inputField.dart';
 import 'package:vertatable/src/components/dateField.dart';
@@ -49,9 +47,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
           context,
           MaterialPageRoute(builder: (context) => AllergiesPage(userId: response['userId'])),
         );
+      } else if (response.containsKey('error')) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(response['error'])),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Errore durante la registrazione')),
+          const SnackBar(content: Text('Erreur lors de l\'enregistrement de l\'utilisateur')),
         );
       }
     } catch (e) {
@@ -175,7 +177,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Veuillez entrer votre numéro de téléphone';
-                      } else if (value.length > 13) {
+                      } else if (value.length > 13 && value.length < 10) {
                         return 'Veuillez entrer un numéro de téléphone valide';
                       }
                       return null;

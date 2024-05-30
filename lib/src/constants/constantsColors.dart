@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 /* -- COLORS APP -- */
 const tPrimaryColor = Color(0xFF3C6252);
 const tSecondaryColor = Color(0xFFC5D6A1);
-const tThirdColor = Color(0xFFC5D6A1);
-const tFourthColor = Color(0xFF677C5D);
+const tThirdColor = Color(0xFF798076);
 const tAccentColor = Color(0xFFF4783C);
 
 
