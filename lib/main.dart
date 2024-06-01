@@ -1,11 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:vertatable/src/views/intro_app/welcome_page.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   HttpOverrides.global = MyHttpOverrides();
-  runApp(MyApp());
+  initializeDateFormatting('fr_FR', null).then((_) {
+    runApp(MyApp());
+  });
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -23,6 +27,15 @@ class MyApp extends StatelessWidget {
     return const GetMaterialApp(
       title: 'VertaTable',
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('fr', 'FR'),
+      ],
+      locale: Locale('fr', 'FR'),
       home: WelcomePage(),
     );
   }

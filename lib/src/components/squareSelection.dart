@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-class DietarySelection extends StatefulWidget {
+class SquareSelection extends StatefulWidget {
   final String title1;
   final String title2;
   final String title3;
@@ -9,7 +9,7 @@ class DietarySelection extends StatefulWidget {
   final String imagePath3;
   final Function(String) onOptionSelected;
 
-  const DietarySelection({
+  const SquareSelection({
     Key? key,
     required this.title1,
     required this.title2,
@@ -21,10 +21,10 @@ class DietarySelection extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _DietarySelectionState createState() => _DietarySelectionState();
+  _SquareSelectionState createState() => _SquareSelectionState();
 }
 
-class _DietarySelectionState extends State<DietarySelection> {
+class _SquareSelectionState extends State<SquareSelection> {
   int? _selectedOptionIndex;
 
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vertatable/src/views/home.dart';
+import 'package:vertatable/src/views/home_page.dart';
 import 'package:vertatable/src/views/intro_app/intro_page_1.dart';
 import 'package:vertatable/src/views/intro_app/intro_page_2.dart';
 import 'package:vertatable/src/views/intro_app/intro_page_3.dart';

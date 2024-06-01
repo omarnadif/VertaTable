@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:vertatable/src/services/api_registration.dart';
 import '../../components/allergyOption.dart';
 import '../../components/buttonSubmit.dart';
-import '../../components/dietarySelection.dart';
+import '../../components/squareSelection.dart';
 import '../../constants/constantsColors.dart';
 import '../../constants/constantsImg.dart';
 import '../../constants/constantsText.dart';
-import '../home.dart';
+import '../home_page.dart';
 
 class AllergiesPage extends StatefulWidget {
   final int userId;
@@ -21,6 +21,7 @@ class _AllergiesPageState extends State<AllergiesPage> {
   int? selectedDietaryOptionId;
   List<int> selectedAllergies = [];
 
+  //Choix de l'option diététique
   void handleDietaryOptionSelected(String option) {
     setState(() {
       selectedDietaryOptionId = option == 'Omnivore' ? 14 : option == 'Vegetarian' ? 15 : 16;
@@ -29,6 +30,7 @@ class _AllergiesPageState extends State<AllergiesPage> {
     });
   }
 
+  //Choix de l'option allergie
   void handleAllergyOptionSelected(int allergyId, bool isSelected) {
     setState(() {
       if (isSelected) {
@@ -39,6 +41,7 @@ class _AllergiesPageState extends State<AllergiesPage> {
     });
   }
 
+
   void finalizeRegistration() async {
     try {
       final response = await ApiRegistration.finalizeRegistration(widget.userId, selectedAllergies);
@@ -46,11 +49,11 @@ class _AllergiesPageState extends State<AllergiesPage> {
       if (response.containsKey('message') && response['message'] == 'User registered successfully with allergies!') {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
+          MaterialPageRoute(builder: (context) => HomePage(userId: widget.userId)),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Errore durante la finalizzazione della registrazione')),
+          const SnackBar(content: Text('Un erreur est survenue lors de l\'enregistrement de vos allergies')),
         );
       }
     } catch (e) {
@@ -59,6 +62,7 @@ class _AllergiesPageState extends State<AllergiesPage> {
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +73,8 @@ class _AllergiesPageState extends State<AllergiesPage> {
             padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 50.0),
             child: Column(
               children: [
+
+                //Allergies title
                 RichText(
                   textAlign: TextAlign.center,
                   text: const TextSpan(
@@ -101,8 +107,12 @@ class _AllergiesPageState extends State<AllergiesPage> {
                     ],
                   ),
                 ),
+
+                //Espace
                 const SizedBox(height: 25),
-                DietarySelection(
+
+                //Dietary selection
+                SquareSelection(
                   title1: tAllergiesText4,
                   title2: tAllergiesText5,
                   title3: tAllergiesText6,
@@ -111,7 +121,11 @@ class _AllergiesPageState extends State<AllergiesPage> {
                   imagePath3: tVeganImage,
                   onOptionSelected: handleDietaryOptionSelected,
                 ),
+
+                //Espace
                 const SizedBox(height: 25),
+
+                //Allergies title
                 RichText(
                   textAlign: TextAlign.center,
                   text: const TextSpan(
@@ -137,6 +151,8 @@ class _AllergiesPageState extends State<AllergiesPage> {
                     ],
                   ),
                 ),
+
+                //Allergies options
                 const SizedBox(height: 25),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -269,17 +285,11 @@ class _AllergiesPageState extends State<AllergiesPage> {
                     ),
                   ],
                 ),
+
+                //Espace
                 const SizedBox(height: 25),
-                Text(
-                  'ID della dieta selezionata: ${selectedDietaryOptionId ?? ''}',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 25),
-                Text(
-                  'Allergie selezionate: ${selectedAllergies.join(', ')}',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 25),
+
+                //Button to finalize registration
                 ButtonSubmit(
                   onTap: finalizeRegistration,
                   buttonText: tRegistrationText11,
