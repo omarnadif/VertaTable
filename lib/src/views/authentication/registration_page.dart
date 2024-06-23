@@ -4,13 +4,13 @@ import 'package:vertatable/src/components/inputField.dart';
 import 'package:vertatable/src/components/dateField.dart';
 import 'package:vertatable/src/constants/constantsColors.dart';
 import 'package:vertatable/src/constants/constantsText.dart';
-import 'package:vertatable/src/views/authentication/allergies_page.dart';
 import 'package:vertatable/src/views/authentication/login_page.dart';
-
-import '../../services/api_registration.dart';
+import 'package:vertatable/src/services/api_registration.dart';
+import 'allergies_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({Key? key}) : super(key: key);
+
   @override
   State<RegistrationPage> createState() => _RegistrationPageState();
 }
@@ -27,40 +27,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  void registerUser() async {
+  //Saveguard user data
+  void saveUserData() async {
     Map<String, dynamic> userData = {
       'nom': nomController.text,
       'prenom': prenomController.text,
       'email': emailController.text,
       'telephone': telephoneController.text,
       'password': passwordController.text,
-      'confirmationPassword': confirmationPasswordController.text,
       'codeEntreprise': codeEntrepriseController.text,
       'date_de_naissance': dateController.text,
     };
 
-    try {
-      final response = await ApiRegistration.registerUser(userData);
-
-      if (response['message'] == 'User registration data stored. Proceed to select allergies.') {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => AllergiesPage(userId: response['userId'])),
-        );
-      } else if (response.containsKey('error')) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(response['error'])),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Erreur lors de l\'enregistrement de l\'utilisateur')),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('$e')),
-      );
-    }
+    await ApiRegistration.saveUserData(userData);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AllergiesPage(userId: 0)),
+    );
   }
 
   @override
@@ -74,6 +57,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               key: _formKey,
               child: Column(
                 children: [
+                  //Title
                   RichText(
                     textAlign: TextAlign.center,
                     text: const TextSpan(
@@ -106,7 +90,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ],
                     ),
                   ),
+
+                  //Space
                   const SizedBox(height: 25),
+
+                  //Nom et Prénom
                   Row(
                     children: [
                       Expanded(
@@ -142,7 +130,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
                     ],
                   ),
+
+                  //Space
                   const SizedBox(height: 25),
+
+                  //Email
                   InputField(
                     controller: emailController,
                     hintText: tRegistrationText6,
@@ -160,14 +152,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       return null;
                     },
                   ),
+
+                  //Space
                   const SizedBox(height: 25),
+
+                  //Date de naissance
                   DateField(
                     controller: dateController,
                     hintText: tRegistrationText14,
                     icon: Icons.calendar_today,
                     iconColor: tPrimaryColor,
                   ),
+
+                  //Space
                   const SizedBox(height: 25),
+
+                  //Téléphone
                   InputField(
                     controller: telephoneController,
                     hintText: tRegistrationText7,
@@ -183,7 +183,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       return null;
                     },
                   ),
+
+                  //Space
                   const SizedBox(height: 25),
+
+                  //Mot de passe
                   InputField(
                     controller: passwordController,
                     hintText: tRegistrationText8,
@@ -197,7 +201,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       return null;
                     },
                   ),
+
+                  //Space
                   const SizedBox(height: 25),
+
+                  //Confirmation du mot de passe
                   InputField(
                     controller: confirmationPasswordController,
                     hintText: tRegistrationText9,
@@ -214,7 +222,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       return null;
                     },
                   ),
+
+                  //Space
                   const SizedBox(height: 25),
+
+                  //Code entreprise
                   InputField(
                     controller: codeEntrepriseController,
                     hintText: tRegistrationText10,
@@ -222,16 +234,24 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     icon: Icons.business,
                     iconColor: tPrimaryColor,
                   ),
+
+                  //Space
                   const SizedBox(height: 25),
+
+                  //Bouton de soumission
                   ButtonSubmit(
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
-                        registerUser();
+                        saveUserData();
                       }
                     },
                     buttonText: tRegistrationText11,
                   ),
+
+                  //Space
                   const SizedBox(height: 15),
+
+                  //Texte de redirection vers la page login
                   GestureDetector(
                     onTap: () {
                       Navigator.push(

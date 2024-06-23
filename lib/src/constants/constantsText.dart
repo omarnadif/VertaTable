@@ -56,6 +56,7 @@ const String tAllergiesText4 = "Omivore";
 const String tAllergiesText5 = "Végétarien";
 const String tAllergiesText6 = "Végétalien";
 const String tAllergiesText7 = "Allergies?";
+const String tAllergiesText21 = "Alimentaires";
 
 const String tAllergiesText8 = "Lait";
 const String tAllergiesText9 = "Oeuf";

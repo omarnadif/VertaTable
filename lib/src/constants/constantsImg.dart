@@ -6,6 +6,7 @@ const String tWelcomePageBackground = "images/images_intro/Background_introPage.
 
 //Logo App
 const String tLogo = "images/logo/logo_vertatable.png";
+const String tbigLogo = "images/logo/big_logo.png";
 
 
 //Aliergies Page Images
@@ -26,4 +27,5 @@ const String tPoissonImage = "images/allergies/poisson.png";
 const String tSojaImage = "images/allergies/soja.png";
 const String tMollusquesImage = "images/allergies/mollusques.png";
 const String tLupinImage = "images/allergies/lupin.png";
+const String tNotFoundImage = "images/allergies/notFound.png";
 

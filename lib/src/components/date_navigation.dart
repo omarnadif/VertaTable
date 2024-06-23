@@ -22,6 +22,10 @@ class _DateNavigationState extends State<DateNavigation> {
     Intl.defaultLocale = 'fr_FR';
   }
 
+  bool _isWeekend(DateTime day) {
+    return day.weekday == DateTime.saturday || day.weekday == DateTime.sunday;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -58,11 +62,13 @@ class _DateNavigationState extends State<DateNavigation> {
           return isSameDay(_selectedDay, day);
         },
         onDaySelected: (selectedDay, focusedDay) {
-          setState(() {
-            _selectedDay = selectedDay;
-            _focusedDay = focusedDay;
-          });
-          widget.onDateSelected(selectedDay);
+          if (!_isWeekend(selectedDay)) {
+            setState(() {
+              _selectedDay = selectedDay;
+              _focusedDay = focusedDay;
+            });
+            widget.onDateSelected(selectedDay);
+          }
         },
         calendarFormat: CalendarFormat.week,
         availableCalendarFormats: const {
@@ -70,30 +76,33 @@ class _DateNavigationState extends State<DateNavigation> {
         },
         daysOfWeekHeight: 16.0,
         rowHeight: 40.0,
-        calendarStyle: const CalendarStyle(
-          selectedDecoration: BoxDecoration(
+        calendarStyle: CalendarStyle(
+          selectedDecoration: const BoxDecoration(
             color: tAccentColor,
             shape: BoxShape.circle,
           ),
-          todayDecoration: BoxDecoration(
+          todayDecoration: const BoxDecoration(
             color: tSecondaryColor,
             shape: BoxShape.circle,
           ),
-          todayTextStyle: TextStyle(
+          todayTextStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             color: tDarkColor,
           ),
-          selectedTextStyle: TextStyle(
+          selectedTextStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
-          defaultTextStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: tDarkColor,
-          ),
-          weekendTextStyle: TextStyle(
+          defaultTextStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             color: tAccentColor,
+          ),
+          weekendTextStyle: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.grey,
+          ),
+          disabledTextStyle: const TextStyle(
+            color: Colors.grey,
           ),
         ),
         headerStyle: const HeaderStyle(
@@ -106,10 +115,12 @@ class _DateNavigationState extends State<DateNavigation> {
           rightChevronVisible: false,
         ),
         daysOfWeekStyle: const DaysOfWeekStyle(
-          weekendStyle: TextStyle(color: tAccentColor, fontSize: 14.0, fontWeight: FontWeight.bold),
+          weekendStyle: TextStyle(color: Colors.grey, fontSize: 14.0, fontWeight: FontWeight.bold),
           weekdayStyle: TextStyle(color: tDarkColor, fontSize: 14.0, fontWeight: FontWeight.bold),
         ),
       ),
     );
   }
 }
+
+

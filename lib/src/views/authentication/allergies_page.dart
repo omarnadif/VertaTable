@@ -41,19 +41,25 @@ class _AllergiesPageState extends State<AllergiesPage> {
     });
   }
 
+  //Envoi des données
+  void submitAllergies() async {
+    final userData = await ApiRegistration.getUserData();
+    userData['allergenes'] = selectedAllergies;
 
-  void finalizeRegistration() async {
     try {
-      final response = await ApiRegistration.finalizeRegistration(widget.userId, selectedAllergies);
-
-      if (response.containsKey('message') && response['message'] == 'User registered successfully with allergies!') {
+      final response = await ApiRegistration.registerUser(userData);
+      if (response.containsKey('token')) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePage(userId: widget.userId)),
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      } else if (response.containsKey('error')) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(response['error'])),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Un erreur est survenue lors de l\'enregistrement de vos allergies')),
+          const SnackBar(content: Text('Erreur lors de l\'enregistrement de l\'utilisateur')),
         );
       }
     } catch (e) {
@@ -62,7 +68,6 @@ class _AllergiesPageState extends State<AllergiesPage> {
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -152,8 +157,10 @@ class _AllergiesPageState extends State<AllergiesPage> {
                   ),
                 ),
 
-                //Allergies options
+                //Espace
                 const SizedBox(height: 25),
+
+                //Allergies selection
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -203,7 +210,11 @@ class _AllergiesPageState extends State<AllergiesPage> {
                     ),
                   ],
                 ),
+
+                //Espace
                 const SizedBox(height: 5),
+
+                //Allergies selection
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -253,7 +264,11 @@ class _AllergiesPageState extends State<AllergiesPage> {
                     ),
                   ],
                 ),
+
+                //Espace
                 const SizedBox(height: 5),
+
+                //Allergies selection
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -289,11 +304,12 @@ class _AllergiesPageState extends State<AllergiesPage> {
                 //Espace
                 const SizedBox(height: 25),
 
-                //Button to finalize registration
+                //Button de finalization de l'inscription
                 ButtonSubmit(
-                  onTap: finalizeRegistration,
+                  onTap: submitAllergies,
                   buttonText: tRegistrationText11,
                 ),
+
               ],
             ),
           ),
@@ -302,3 +318,4 @@ class _AllergiesPageState extends State<AllergiesPage> {
     );
   }
 }
+

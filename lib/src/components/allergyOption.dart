@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import '../constants/constantsColors.dart';
+import '../constants/constantsText.dart';
 
+// Widget pour une option d'allergie
 class AllergyOption extends StatefulWidget {
   final String title;
   final String iconPath;
@@ -18,6 +21,7 @@ class AllergyOption extends StatefulWidget {
   _AllergyOptionState createState() => _AllergyOptionState();
 }
 
+// État pour le widget d'option d'allergie
 class _AllergyOptionState extends State<AllergyOption> {
   bool _isSelected = false;
 
@@ -36,22 +40,40 @@ class _AllergyOptionState extends State<AllergyOption> {
         });
         widget.onSelect(_isSelected);
       },
-      child: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: _isSelected ? Colors.green : Colors.black,
-            width: _isSelected ? 3.0 : 1.0,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: _isSelected ? Colors.green : tDarkColor,
+                width: _isSelected ? 3.0 : 1.0,
+              ),
+            ),
+            child: CircleAvatar(
+              backgroundColor: tWhiteColor,
+              child: Image.asset(
+                widget.iconPath,
+                width: 45,
+                height: 50,
+              ),
+            ),
           ),
-        ),
-        child: CircleAvatar(
-          backgroundColor: Colors.white,
-          child: Image.asset(
-            widget.iconPath,
-            width: 45,
-            height: 50,
+
+          // Espace
+          const SizedBox(height: 5),
+
+          // Texte
+          Text(
+            widget.title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: tDarkColor,
+              fontSize: 13,
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
